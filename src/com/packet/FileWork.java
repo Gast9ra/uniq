@@ -9,12 +9,14 @@ import static java.nio.file.Files.exists;
  * Created by Gast9ra on 30.03.2017.
  */
 public class FileWork {
-    private static String inFile = "C:\\Users\\Gast9ra\\IdeaProjects\\uniq\\uniq\\filetest.txt";
-    private static String text ="ghutjgut \ntesy15295 \n";
+
+
 
 
 
     public static void main(String[] args) throws FileNotFoundException {
+        String inFile = "C:\\Users\\Gast9ra\\IdeaProjects\\uniq\\uniq\\filetest.txt";
+        String text ="тестовый тект который нужен \ntes15295 \n";
         File way = new File (inFile);
         write(new File (inFile).getPath(),text);
         System.out.println(read(way.getPath()));
