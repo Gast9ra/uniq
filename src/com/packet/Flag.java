@@ -52,12 +52,13 @@ public class Flag {
             input = null;
             throw new IllegalArgumentException("not valid name");
         }
-        if (!new File(output).canWrite())
-            throw new IllegalArgumentException("not valid name");
+        if (output!=null) {
+            if (!new File(output).canWrite())
+                throw new IllegalArgumentException("not valid name");
+            if (output.equals(input)) throw new IllegalArgumentException("input=output");
+        }
         if (!new File(input).canRead())
             throw new IllegalArgumentException("not valid name");
-        if (output.equals(input)) throw new IllegalArgumentException("input=output");
-
     }
 
     public String getInput() {
