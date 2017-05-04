@@ -2,6 +2,7 @@ package com.packet;
 
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -18,35 +19,57 @@ public class Main {
     public static void command(String[] com) throws FileNotFoundException {
         Flag argPosition = new Flag(com); //разбор командной строки
         FileWork fileDo = new FileWork();
-        List text = fileDo.readList(argPosition.getInput()); //разбитие файла на массив строк
-        for (int i = 0; i < text.size(); i++) {
-            int c = 1; //переменая колличества одинаковых строк
-            if (i + 1 < text.size() - 1) {
-                if (text.get(i).equals(text.get(i + 1))) {
+        List<String> text = fileDo.readList(argPosition.getInput()); //разбитие файла на массив строк
+        ArrayList<String> result = new ArrayList<String>();
+        if (text.size() != 0) {
+            int j = 0;
+            int c = 0; //переменая колличества одинаковых строк
+            result.add(text.get(0));
+            for (int i = 1; i < text.size(); i++) {
+
+                if (comparison(result.get(j), text.get(i), argPosition.isI(),argPosition.getsCount())) {
                     c++;
-                    text.remove(i + 1);
-                    for (int j = i + 1; j < text.size(); j++) //поиск одинаковых подряд идущих
-                        if (text.get(i).equals(text.get(j))) {
-                            text.remove(j);
-                            c++;
-                            j--;
-                        } else {
-                            if (argPosition.isC()) {
-                                String intervalRes = "\"" + c + "\"" + text.get(i);
-                                text.set(i, intervalRes);
-                            }
-                            c = 1;
-                            break;
-                        }
+                } else {
+                    if (!argPosition.isU()) {
+
+                        //добавление аргумента флага С в массив результата
+                        if (result.size() >= 1 && argPosition.isC())
+                            result.set(j, "\"" + c + "\"" + result.get(j));
+
+                        result.add(text.get(i));
+                        j++;
+
+                    } else if (c < 1) {
+
+                        if (text.size() - 1 > i + 1 &&
+                                !comparison(result.get(j), text.get(i + 1), argPosition.isI(),argPosition.getsCount())) {
+                            result.add(text.get(i));
+                            j++;
+                        }else result.add(text.get(i));
+
+                    }
+                    c = 0;
                 }
             }
-        }
-        if(!argPosition.isO()) {
-            for (int i = 0; i < text.size(); i++) {
-                System.out.println(text.get(i));
+            if (!argPosition.isO()) {
+                for (int i = 0; i < result.size(); i++) {
+                    System.out.println(result.get(i));
+                }
+            }else{
+                fileDo.writeLine(argPosition.getOutput(),result);
             }
+
         }
     }
 
-
+    private static boolean comparison(String first, String second, Boolean flagI,int sCount) {
+        if (flagI) {
+            if (first.length() > sCount && second.length() > sCount) {
+                return first.substring(sCount).toLowerCase().equals(second.substring(sCount).toLowerCase());
+            }else return false;
+        } else
+        if (first.length() > sCount && second.length() > sCount) {
+            return first.substring(sCount).equals(second.substring(sCount));
+        }else return false;
+    }
 }

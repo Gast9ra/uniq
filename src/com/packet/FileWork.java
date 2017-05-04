@@ -45,6 +45,25 @@ public class FileWork {
         }
     }
 
+    public void writeLine(String fileName,List<String> text){
+        //Определяем файл
+        File file = new File(fileName);
+        try {
+            //проверяем, что если файл не существует то создаем его
+            if (!file.exists()) file.createNewFile();
+            PrintWriter out = new PrintWriter(file.getAbsoluteFile());
+            try {
+                for (int i=0;i<text.size();i++) {
+                    out.println(text.get(i));
+                }
+            } finally {
+                out.close();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public  String read(String fileName) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();

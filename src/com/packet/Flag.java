@@ -34,29 +34,22 @@ public class Flag {
                         break;
                     case "-o":
                         o = true;
-                        if (argList.length >= l) {
                             output = argList[l + 1];
-                            if (output.length() < 0 || output == null) {
+                            if (output == null || output.length() < 0) {
                                 output = null;
                                 throw new IllegalArgumentException("not valid name");
                             }
-                        } else
-                            throw new IllegalArgumentException("not valid name");
                     default:
                         break;
                 }
             }
         }
         input = argList[argList.length - 1];
-        if (input.length() < 1 || input == null) {
+        if (input == null || input.length() < 1) {
             input = null;
             throw new IllegalArgumentException("not valid name");
         }
-        if (output!=null) {
-            if (!new File(output).canWrite())
-                throw new IllegalArgumentException("not valid name");
-            if (output.equals(input)) throw new IllegalArgumentException("input=output");
-        }
+        if (output.equals(input)) throw new IllegalArgumentException("input=output");
         if (!new File(input).canRead())
             throw new IllegalArgumentException("not valid name");
     }
@@ -85,29 +78,9 @@ public class Flag {
         return c;
     }
 
-    public boolean isS() {
-        return s;
-    }
-
     public boolean isO() {
         return o;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Flag)) return false;
 
-        Flag flag = (Flag) o;
-
-        if (!getInput().equals(flag.getInput())) return false;
-        return getOutput().equals(flag.getOutput());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getInput().hashCode();
-        result = 31 * result + getOutput().hashCode();
-        return result;
-    }
 }
