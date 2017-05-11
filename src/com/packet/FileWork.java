@@ -64,7 +64,6 @@ public class FileWork {
         }
     }
 
-
     public  String read(String fileName) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         File file = new File(fileName);
