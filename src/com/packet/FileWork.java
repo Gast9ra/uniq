@@ -13,20 +13,6 @@ import static java.nio.file.Files.exists;
 public class FileWork {
 
 
-
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String inFile = "output\\filetest.txt";
-        String text ="тестовый тект который нужен \ntes15295 \n";
-        File way = new File (inFile);
-        FileWork kio=new FileWork();
-        kio.write(new File (inFile).getPath(),text);
-        System.out.println(kio.read(way.getPath()));
-        way.delete();
-    }
-
-
     public  void write(String fileName, String text) {
         //Определяем файл
         File file = new File(fileName);
@@ -45,24 +31,6 @@ public class FileWork {
         }
     }
 
-    public void writeLine(String fileName,List<String> text){
-        //Определяем файл
-        File file = new File(fileName);
-        try {
-            //проверяем, что если файл не существует то создаем его
-            if (!file.exists()) file.createNewFile();
-            PrintWriter out = new PrintWriter(file.getAbsoluteFile());
-            try {
-                for (int i=0;i<text.size();i++) {
-                    out.println(text.get(i));
-                }
-            } finally {
-                out.close();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public  String read(String fileName) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
@@ -92,6 +60,7 @@ public class FileWork {
         return sb.toString();
     }
 
+
     public  List<String> readList(String fileName) throws FileNotFoundException {
         File file = new File(fileName);
         ArrayList<String> stringList=new ArrayList<>();
@@ -117,17 +86,6 @@ public class FileWork {
         }
 
         return stringList;
-    }
-
-    public  void update(String nameFile, String newText) throws FileNotFoundException {
-        File file= new File(nameFile);
-        if(!exists(file.toPath()))
-            throw new FileNotFoundException("File not found");
-        StringBuilder sb = new StringBuilder();
-        String oldFile = read(nameFile);
-        sb.append(oldFile);
-        sb.append(newText);
-        write(nameFile, sb.toString());
     }
 
 }
