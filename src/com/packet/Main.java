@@ -59,7 +59,14 @@ public class Main {
                 }
             }
             if (c>0 && argPosition.isC()) result.set(j, "\"" + c + "\"" + result.get(j));
-            writeLine(argPosition.getOutput(),result,argPosition.isO());
+
+            if (argPosition.isO()){
+                PrintWriter out=new PrintWriter(argPosition.getOutput());
+                writeLine(out,result);
+            } else {
+                PrintWriter out = new PrintWriter(System.out);
+                writeLine(out,result);
+            }
         }
     }
 
@@ -77,27 +84,11 @@ public class Main {
     }
 
 
-    private static void writeLine(String fileName, List<String> text, Boolean flag) {
-        if (!flag) {
-            for (int i = 0; i < text.size(); i++) {
-                System.out.println(text.get(i));
-            }
-        } else {
-            //Определяем файл
-            File file = new File(fileName);
-            try {
-                //проверяем, что если файл не существует то создаем его
-                PrintWriter out = new PrintWriter(file);
-                try {
-                    for (int i = 0; i < text.size(); i++) {
-                        out.println(text.get(i));
-                    }
-                } finally {
-                    out.close();
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+    private static void writeLine(PrintWriter fileName, List<String> text) {
+        for (int i = 0; i < text.size(); i++) {
+            fileName.println(text.get(i));
         }
+        fileName.close();
     }
+
 }
