@@ -16,7 +16,9 @@ public class test {
 
 
     @Test
-    void flagTest(){
+    void flagTest() throws IOException {
+        File read=new File("output\\test1.txt");
+        read.createNewFile();
         String[] args=new String[8];
         args[0]="-i";
         args[1]="-u";
@@ -25,15 +27,16 @@ public class test {
         args[4]="5";
         args[5]="-o";
         args[6]="C:\\tre";
-        args[7]="output\\test.txt";
+        args[7]="output\\test1.txt";
         Flag executor=new Flag(args);
         assertTrue(executor.isC());
         assertTrue(executor.isI());
         assertTrue(executor.isO());
         assertTrue(executor.isU());
         assertEquals(5,executor.getsCount());
-        assertEquals("output\\test.txt",executor.getInput());
+        assertEquals("output\\test1.txt",executor.getInput());
         assertEquals("C:\\tre",executor.getOutput());
+        read.delete();
     }
 
     @Test
